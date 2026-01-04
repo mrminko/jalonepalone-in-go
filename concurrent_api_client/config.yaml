@@ -1,0 +1,51 @@
+description: ""
+
+apis:
+  - label: a
+    name: get_users
+    endpoint: https://jsonplaceholder.typicode.com/users
+    method: GET
+
+  - label: b
+    name: get_todos
+    endpoint: https://jsonplaceholder.typicode.com/users
+    method: GET
+#
+#  - label: a
+#    name: login
+#    endpoint: localhost:8069/api/auth/employee/login
+#    method: POST
+#    body:
+#      email: abigail@gmail.com
+#      password: "123"
+#    success:
+#      token: result.access_token
+#      refresh_token: result.refresh_token
+#
+#  - label: b
+#    name: get_attendances
+#    endpoint: localhost:8069/api/v1/attendance/6
+#    method: GET
+#    headers:
+#      Authorization: "Bearer ${a.token}"
+#    depends:
+#      - a
+#
+#  - label: c
+#    name: check_in
+#    endpoint: localhost:8069/api/v1/attendance/checkin/6
+#    method: POST
+#    headers:
+#      Authorization: "Bearer ${a.token}"
+#    depends:
+#      - a
+#
+#  - label: d
+#    name: check_out
+#    endpoint: localhost:8069/api/v1/attendance/checkout/6
+#    method: PUT
+#    headers:
+#      Authorization: "Bearer ${a.token}"
+#    depends:
+#      - a
+#      - c

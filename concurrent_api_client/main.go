@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/goccy/go-yaml"
 	"io"
 	"net/http"
 	"os"
@@ -31,12 +32,12 @@ type ApiResponse struct {
 type ApiResponseChannel chan *ApiResponse
 
 func main() {
-	data, err := os.ReadFile("config.json")
+	data, err := os.ReadFile("config.yaml")
 	if err != nil {
 		panic(err)
 	}
 	config := &Config{}
-	if err = json.Unmarshal(data, config); err != nil {
+	if err = yaml.Unmarshal(data, config); err != nil {
 		panic(err)
 	}
 	run(config.Apis)
