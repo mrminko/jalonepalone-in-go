@@ -1,0 +1,17 @@
+{
+  "description": "",
+  "apis": [
+    {
+      "label": "a",
+      "name": "get_users",
+      "endpoint": "https://jsonplaceholder.typicode.com/users",
+      "method": "get"
+    },
+    {
+      "label": "b",
+      "name": "get_todos",
+      "endpoint": "https://jsonplaceholder.typicode.com/users",
+      "method": "get"
+    }
+  ]
+}
