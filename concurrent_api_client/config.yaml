@@ -10,6 +10,14 @@ apis:
     name: get_todos
     endpoint: https://jsonplaceholder.typicode.com/users
     method: GET
+  - label: c
+    name: post_todo
+    endpoint: https://jsonplaceholder.typicode.com/todos
+    method: POST
+    payload:
+      userId: 10
+      title: "hello bro"
+      completed: true
 #
 #  - label: a
 #    name: login
