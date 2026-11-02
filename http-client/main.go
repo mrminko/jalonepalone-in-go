@@ -1,23 +1,73 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
-	"io"
 	"log"
-	"net/http"
 	"os"
+	"strings"
 )
+const DEFAULT_CLIENT_FILE = "clientfile"
+
+var CACHE = map[interface{}]interface{}{}
+
+type HTTPMethod string
+const (
+	GET HTTPMethod = "GET"
+	POST HTTPMethod = "POST"
+	PUT HTTPMethod = "PUT"
+	DELETE HTTPMethod = "DELETE"
+)
+type request struct {
+	env    *os.File
+	method HTTPMethod
+	URL string
+}
+type clientFile struct {
+	requests []*request
+}
 
 func main() {
-	addr := os.Args[1]
-	r, err := http.Get(addr)
-	if err != nil {
-		log.Fatalln(err)
+	files := os.Args[1:]
+	for _, f := range files {
+		parseFile(f)
 	}
-	b, err := io.ReadAll(r.Body)
+}
+
+func parseFile(filename string) *clientFile {
+	file, err := os.Open(filename)
 	if err != nil {
-		log.Fatalln(err)
+		log.Fatal("Error opening file: ", err)
 	}
-	defer r.Body.Close()
-	fmt.Printf("%s\n", b)
+	defer file.Close()
+	cf := &clientFile{}
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		t := scanner.Text()
+		if t[:3] == "###" {
+			continue //comment line
+		}
+		if t == "\n" {
+			cf.requests = append(cf.requests, buildRequest(scanner))
+		}
+	}
+	return cf
+}
+
+//called at the start of every new request config
+func buildRequest(scanner * bufio.Scanner) *request {
+	for scanner.Scan() {
+		tokens := strings.Split(scanner.Text(), " ")
+		if !validateMethod(tokens[0]) {
+			panic("Invalid method: " + tokens[0])
+		}
+
+	}
+}
+
+func validateMethod(method string) bool {
+	if method == "GET" || method == "POST" || method == "PUT" || method == "DELETE" {
+		return true
+	}
+	return false
 }
